@@ -17,3 +17,8 @@
 .status > .number {
   font-size: 30px;
 }
+
+/* 去除 Firefox 数字输入框右边箭头按钮 */
+#chanid {
+  -moz-appearance: textfield;
+}

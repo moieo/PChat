@@ -80,7 +80,7 @@ const app = function(server) {
     socket.on('disconnect',function(){
       total_count--;
       counts[socket.chanid]--;
-      if(counts[socket.chanid] == 0) {
+      if(counts[socket.chanid] === 0) {
         chan_count--;
       }
       /* 不加这两行运行久了会出现负数 不知道为啥 */
