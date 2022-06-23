@@ -9,6 +9,7 @@
     <meta name="sign" content="<%= data.sign %>">
   </head>
   <body class="container">
+    <%- include('./chat-header.ejs', title); %>
     <% if (data === 0 ) {%>
     <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
       无效的请求
@@ -27,6 +28,17 @@
       </div>
       <div>
         <button class="btn btn-outline-secondary" type="button" id="send-btn">发送</button>
+      </div>
+    </div>
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 22">
+      <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <!-- <img src="..." class="rounded me-2" alt="..."> -->
+          <strong class="me-auto">提示</strong>
+          <!-- <small>11 mins ago</small> -->
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
       </div>
     </div>
     <link href="/css/chat.css" rel="stylesheet">

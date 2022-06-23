@@ -9,6 +9,16 @@ $(function(){
     }
   };
 
+  /* 实时人数 */
+  const socket = io('ws://'+window.location.host);
+  socket.on('connect', function(){
+    socket.emit('getcount', 0);
+  });
+  socket.on('count',function(res){
+    $('#online-num').text(res.total_count);
+    $('#chanid-num').text(res.chan_count);
+  });
+  
   $('#contact').on('click', function() {
     const form = $('#quick-start');
     const username = $('#username').val();

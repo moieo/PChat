@@ -1,4 +1,5 @@
 <%- include('./header.ejs', title); %>
+<script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
 <script src="/js/sm2.js"></script>
 <div class="container header">
   <div class="card">
@@ -8,12 +9,33 @@
     <div class="card-body">
       <h5 class="card-title">什么是 PChat？</h5>
       <p class="card-text">
-        PChat 是一个 基于 Socket.io 框架，WebSocket 协议的一个即时通讯程序，它可以像QQ、微信一样实时接收和发送消息，本项目 GPLv3 协议开源，欢迎 Star！ 
+      PChat 是一个 基于 Socket.io 框架，WebSocket 协议的一个即时通讯程序，它可以像QQ、微信一样实时接收和发送消息，本项目 GPLv3 协议开源，欢迎 Star！
       </p>
       <a href="https://github.com/moieo/PChat" class="btn btn-primary">Star</a>
     </div>
   </div>
+  <!-- 状态 -->
+  <div class="row">
 
+    <div class="col">
+      <div class="card status">
+        <div class="number" id="online-num">0</div>
+        <div class="card-footer text-muted">
+          在线人数
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card status">
+        <div class="number" id="chanid-num">0</div>
+        <div class="card-footer text-muted">
+          频道数量
+        </div>
+      </div>
+    </div>
+
+  </div>
   <!-- 快速开始 -->
   <div class="card">
     <div class="card-header">

@@ -2,10 +2,18 @@
   margin-top: 10px;
 }
 
-.header div:not(:first-child) {
+.header > *:not(:first-child) {
   margin-top: 10px;
 }
 
 #qq-get {
   display: none;
+}
+
+.status {
+  text-align: center;
+}
+
+.status > .number {
+  font-size: 30px;
 }

@@ -59,7 +59,6 @@ const app = function(server) {
       });
       console.log(`总人数：${total_count}  频道 ${socket.chanid} 人数：${counts[socket.chanid]}`);
       //socket.emit('msg',{name:socket.username,msg:'连接成功 '+(new Date())});
-      emit(socket, '连接成功 '+(new Date()));
     })
 
     socket.on('send',function(res){ /* 发送给频道用户 */
@@ -71,15 +70,25 @@ const app = function(server) {
       //io.emit('msg',{name:socket.username,msg:res});
       //}
     });
-
+    socket.on('getcount', function(res){
+      socket.join('index');
+      io.to('index').emit('count', {
+        chan_count: chan_count,
+        total_count: total_count,
+      });
+    });
     socket.on('disconnect',function(){
       total_count--;
       counts[socket.chanid]--;
       if(counts[socket.chanid] == 0) {
         chan_count--;
       }
+      /* 不加这两行运行久了会出现负数 不知道为啥 */
+      if(total_count < 0) total_count = 0;
+      if(chan_count < 0) chan_count = 0;
+      io.to(socket.chanid).emit('toast', `${socket.username} 退出了会话`);
       io.emit('count',{
-        chan_count,
+        chan_count: chan_count,
         total_count: total_count,
         chanid: socket.chanid,
         count: counts[socket.chanid]

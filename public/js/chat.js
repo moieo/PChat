@@ -7,7 +7,7 @@ $(function() {
       $('#msgcon').val(`${name} `);
     }
   };
-
+  /* 对话框 */
   const append_bubble = function(con_item, type='left', name, msg, mail) {
     if (type == 'left'){
       con_item.append(`
@@ -65,14 +65,23 @@ $(function() {
     });
   }
 
+  $(document).keyup(function(event){
+    if(event.shiftKey && event.keyCode==13){
+      $('#send-btn').click();
+    }
+  });
+
   const username = $('meta[name="username"]').attr('content');
   const mail = $('meta[name="email"]').attr('content');
   const chanid = $('meta[name="chanid"]').attr('content');
 
   /* 创建客户端 */
-  const socket = io('ws://127.0.0.1:3000');
+  const socket = io('ws://'+window.location.host);
   /* 监听连接 */
   socket.on('connect',function(){
+    $("#toast > .toast-body").text('连接成功');
+    new bootstrap.Toast($('#toast')).show();
+
     /* 登录成功 向服务器推送 */
     socket.emit('login', {
       username: username,
@@ -89,11 +98,15 @@ $(function() {
     } else {
       append_bubble(con_item,'left',res.name, res.msg, res.mail);
     }
-  })
+  });
   /* 监听在线人数 变更 */
   socket.on('count',function(res){
     $('#count').html(`总人数(${res.total_count})<br/>频道人数(${res.count})<br>频道数量(${res.chan_count})`);
-  })
+  });
+  socket.on('toast', function(res){
+    $("#toast > .toast-body").text(res);
+    new bootstrap.Toast($('#toast')).show();
+  });
   $('#login').css('display', 'none');
   $('.content-show').css('display', 'block');
 
@@ -108,5 +121,5 @@ $(function() {
     var height = $(document).height();
     $(document).scrollTop(height);
     $('#msgcon').focus();
-  })
+  });
 });
