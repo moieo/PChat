@@ -29,10 +29,11 @@ const to_emit = function(socket, io, msg) {
 
 const app = function(server) {
   var io = require('socket.io')(server);
-  var total_count = 0;
-  var counts = {};
-  var chan_count = 0;
-
+  var counter = {
+    total_count: 0,
+    chan_counts: {},
+    chan_count: 0
+  };
   io.on('connection',function(socket){
     socket.on('login',function(res){
       /* 赋值个人信息 */
@@ -44,20 +45,20 @@ const app = function(server) {
         console.log(socket.chanid);
       });
       console.log('昵称:',socket.username)
-      total_count++;
-      if(counts[socket.chanid]){
-        counts[socket.chanid]++;
+      counter.total_count++;
+      if(counter.chan_counts[socket.chanid]){
+        counter.chan_counts[socket.chanid]++;
       } else {
-        counts[socket.chanid] = 1;
-        chan_count++;
+        counter.chan_counts[socket.chanid] = 1;
+        counter.chan_count++;
       };
       io.emit('count',{
-        chan_count: chan_count,/*频道数量*/
-        total_count: total_count,
+        chan_count: counter.chan_count,/*频道数量*/
+        total_count: counter.total_count,
         chanid: socket.chanid,
-        count: counts[socket.chanid]
+        count: counter.chan_counts[socket.chanid]
       });
-      console.log(`总人数：${total_count}  频道 ${socket.chanid} 人数：${counts[socket.chanid]}`);
+      console.log(`总人数：${counter.total_count}  频道 ${socket.chanid} 人数：${counter.chan_counts[socket.chanid]}`);
       //socket.emit('msg',{name:socket.username,msg:'连接成功 '+(new Date())});
     })
 
@@ -71,27 +72,32 @@ const app = function(server) {
       //}
     });
     socket.on('getcount', function(res){
-      socket.join('index');
-      io.to('index').emit('count', {
-        chan_count: chan_count,
-        total_count: total_count,
+      socket.chanid = 'index';
+      socket.join(socket.chanid);
+      io.to(socket.chanid).emit('count', {
+        chan_count: counter.chan_count,
+        total_count: counter.total_count
       });
+      console.log('getcount', counter.total_count);
     });
     socket.on('disconnect',function(){
-      total_count--;
-      counts[socket.chanid]--;
-      if(counts[socket.chanid] === 0) {
-        chan_count--;
+      if (socket.chanid == 'index') {
+        return;
+      }
+      counter.total_count--;
+      counter.chan_counts[socket.chanid]--;
+      if(counter.chan_counts[socket.chanid] === 0) {
+        counter.chan_count--;
       }
       /* 不加这两行运行久了会出现负数 不知道为啥 */
-      if(total_count < 0) total_count = 0;
-      if(chan_count < 0) chan_count = 0;
+      if(counter.total_count < 0) counter.total_count = 0;
+      if(counter.chan_count < 0) chan_count = 0;
       io.to(socket.chanid).emit('toast', `${socket.username} 退出了会话`);
       io.emit('count',{
-        chan_count: chan_count,
-        total_count: total_count,
+        chan_count: counter.chan_count,
+        total_count: counter.total_count,
         chanid: socket.chanid,
-        count: counts[socket.chanid]
+        count: counter.chan_counts[socket.chanid]
       });
     })
   })
