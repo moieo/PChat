@@ -1,0 +1,45 @@
+<%- include('./header.ejs', title); %>
+<script src="/js/sm2.js"></script>
+<div class="container header">
+  <div class="card">
+    <div class="card-header">
+      PChat
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">什么是 PChat？</h5>
+      <p class="card-text">
+        PChat 是一个 基于 Socket.io 框架，WebSocket 协议的一个即时通讯程序，它可以像QQ、微信一样实时接收和发送消息，本项目 GPLv3 协议开源，欢迎 Star！ 
+      </p>
+      <a href="https://github.com/moieo/PChat" class="btn btn-primary">Star</a>
+    </div>
+  </div>
+
+  <!-- 快速开始 -->
+  <div class="card">
+    <div class="card-header">
+      快速开始
+    </div>
+    <div class="card-body">
+      <form method="get" id="quick-start">
+        <div class="input-group mb-3">
+          <span class="input-group-text">姓名/昵称</span>
+          <input type="text" class="form-control" id="username">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">邮箱/QQ</span>
+          <input type=text class="form-control" id="email">
+          <button class="btn btn-outline-secondary" type="button" id="qq-get">导入</button>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">频道ID</span>
+          <input type="number" class="form-control" id="chanid">
+        </div>
+        <input type="button" class="btn btn-primary" id="contact" value="联络"</input>
+      </form>
+    </div>
+  </div>
+</div>
+<link href="/css/index.css" rel="stylesheet">
+<script src="/js/index.js"></script>
+</body>
+</html>

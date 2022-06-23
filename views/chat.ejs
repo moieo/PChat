@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./public.ejs', title); %>
+    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <meta name="username" content="<%= data.username %>">
+    <meta name="email" content="<%= data.email %>">
+    <meta name="chanid" content="<%= data.chanid %>">
+    <meta name="sign" content="<%= data.sign %>">
+  </head>
+  <body class="container">
+    <% if (data === 0 ) {%>
+    <div class="alert alert-danger" role="alert" style="margin-top: 10px;">
+      无效的请求
+    </div>
+    <% } else { %>
+    <div class="content-show">
+      <div id="content">
+        <div class="con_item">
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="container bottom-menu content-show">
+      <div>
+        <textarea id="msgcon" class="form-control" aria-describedby="send-btn"></textarea>
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary" type="button" id="send-btn">发送</button>
+      </div>
+    </div>
+    <link href="/css/chat.css" rel="stylesheet">
+    <script src="/js/utils.js"></script>
+    <script src="/js/chat.js"></script>
+    <% } %>
+  </body>
+</html>

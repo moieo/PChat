@@ -1,0 +1,86 @@
+.container {
+  padding: 10px;
+}
+
+.right-bubble {
+  padding: 8px;
+  max-width: 80%;
+  margin-left: auto;
+}
+
+.message-head-to-right {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 10px;
+  align-items: center;
+  line-height: 0.98;
+}
+
+.message-head-left {
+  margin-right: 10px;
+  text-align: right;
+}
+
+.left-bubble {
+  padding: 8px;
+  max-width: 80%;
+  margin-right: auto;
+}
+
+.con-item {
+  margin: 6px 0 10px 0;
+}
+
+#count {
+  font-size: 14px;
+}
+
+body {
+  margin-bottom: 120px;
+}
+
+#send-btn {
+  margin-top: 10px;
+}
+
+.img-circle{
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.message-head {
+  display: flex;
+  font-size: 10px;
+  align-items: center;
+  line-height: 0.98;
+  max-width: 35%;
+}
+
+.message-head-right {
+  margin-left: 10px;
+}
+
+.nickname {
+  font-size: 18px;
+}
+
+.message {
+  text-align: left;
+  margin-top: 10px;
+  word-wrap: break-word;
+}
+
+/* 底部输入框 */
+.bottom-menu {
+  position: fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  width: 100%;
+  background: #fff;
+  text-align: right;
+}
