@@ -14,7 +14,7 @@ const get_mail_md5 = function(mail_dest) {
 const emit = function(socket, msg) {
   socket.emit('msg', {
     name: socket.username,
-    mail: get_mail_md5(socket.mail),
+    mail: get_mail_md5(socket.mail), /* 把邮箱 md5 加密后传给客户端 */
     msg: msg
   });
 };
@@ -30,9 +30,9 @@ const to_emit = function(socket, io, msg) {
 const app = function(server) {
   var io = require('socket.io')(server);
   var counter = {
-    total_count: 0,
-    chan_counts: {},
-    chan_count: 0
+    total_count: 0, /* 总人数 */
+    chan_counts: {}, /* 分频道人数 */
+    chan_count: 0 /* 频道数量*/
   };
   io.on('connection',function(socket){
     socket.on('login',function(res){
@@ -41,10 +41,8 @@ const app = function(server) {
       socket.chanid = res.chanid;
       socket.mail = res.mail;
 
-      socket.join(socket.chanid, function () {
-        console.log(socket.chanid);
-      });
-      console.log('昵称:',socket.username)
+      /* 加入频道 */
+      socket.join(socket.chanid);
       counter.total_count++;
       if(counter.chan_counts[socket.chanid]){
         counter.chan_counts[socket.chanid]++;
@@ -58,7 +56,7 @@ const app = function(server) {
         chanid: socket.chanid,
         count: counter.chan_counts[socket.chanid]
       });
-      console.log(`总人数：${counter.total_count}  频道 ${socket.chanid} 人数：${counter.chan_counts[socket.chanid]}`);
+      // console.log(`总人数：${counter.total_count}  频道 ${socket.chanid} 人数：${counter.chan_counts[socket.chanid]}`);
       //socket.emit('msg',{name:socket.username,msg:'连接成功 '+(new Date())});
     })
 
@@ -81,6 +79,7 @@ const app = function(server) {
       console.log('getcount', counter.total_count);
     });
     socket.on('disconnect',function(){
+      /* 防止刷新后首页人数显示为0 */
       if (socket.chanid == 'index') {
         return;
       }

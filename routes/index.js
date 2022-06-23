@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/chat/:data', function(req, res, next) {
   const sm2_data = sm2.doDecrypt(req.params.data, privateKey, 1);
-  console.log('解密：', sm2_data);
   try {
     var data = JSON.parse(sm2_data);
     data.sign = sm2.doSignature(sm2_data, privateKey);
