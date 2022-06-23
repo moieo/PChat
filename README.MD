@@ -1,5 +1,6 @@
 # PChat
 基于 Socket.io 的 即时通讯项目
+[![OSCS Status](https://www.oscs1024.com/platform/badge/moieo/PChat.svg?size=large)](https://www.oscs1024.com/project/moieo/PChat?ref=badge_large)
 
 # 任务清单
 - [x] 实现初步即时通讯
