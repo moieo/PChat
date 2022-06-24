@@ -20,7 +20,8 @@ const append_bubble = function(con_item, type='left', name, msg, mail) {
           </div>
         </div>
         <div class="message">
-          ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")}
+          <!-- ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")} -->
+          ${msg}
         </div>
       </div>
     </div>
@@ -37,12 +38,19 @@ const append_bubble = function(con_item, type='left', name, msg, mail) {
           <img class="img-circle avatar" src="https://cravatar.cn/avatar/${mail}?s=100"></img>
         </div>
         <div class="message">
-          ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")}
+          <!-- ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")} -->
+          ${msg}
         </div>
       </div>
     </div>
   `);
   }
+  /* 语法高亮 */
+
+  document.querySelectorAll("pre code").forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+
   var height = $(document).height();
   $(document).scrollTop(height);
 };

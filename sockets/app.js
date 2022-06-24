@@ -1,5 +1,18 @@
 const crypto = require('crypto');
+const marked = require('marked');
 
+/* 渲染 MarkDown */
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  langPrefix: 'hljs language-',
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  smartypants: false
+});
 /* MD5 加密邮箱 */
 const get_mail_md5 = function(mail_dest) {
   var mail = '';
@@ -63,7 +76,7 @@ const app = function(server) {
     socket.on('send',function(res){ /* 发送给频道用户 */
       //if(socket.chanid != '99999') {
       //io.to(socket.chanid).emit('msg',{name:socket.username,msg:res});
-      to_emit(socket, io, res);
+      to_emit(socket, io, marked.parse(res));
       //io.to('99999').emit('msg',{name:socket.username,msg:res});
       //} else {
       //io.emit('msg',{name:socket.username,msg:res});

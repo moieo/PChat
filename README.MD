@@ -13,5 +13,6 @@
 - [x] 通过QQ号导入信息
 - [x] 使用 Gravatar / Cravatar / QQ 作为头像
 - [x] 退出会话提醒
-- [ ] 支持 MarkDown 消息
+- [x] 支持 MarkDown 消息
+- [x] highlight.js 渲染代码
 - [x] 在非移动设备使用 Shift+Enter 发送消息
