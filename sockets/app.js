@@ -1,18 +1,22 @@
 const crypto = require('crypto');
 const marked = require('marked');
+const config = require('../config');
+const utils = require('./utils')
 
 /* 渲染 MarkDown */
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  langPrefix: 'hljs language-',
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
-});
+if (config.markdownMessage) {
+  marked.setOptions({
+    renderer: new marked.Renderer(),
+    langPrefix: 'hljs language-',
+    gfm: true,
+    tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: true,
+    smartLists: true,
+    smartypants: false
+  });
+}
 /* MD5 加密邮箱 */
 const get_mail_md5 = function(mail_dest) {
   var mail = '';
@@ -76,7 +80,16 @@ const app = function(server) {
     socket.on('send',function(res){ /* 发送给频道用户 */
       //if(socket.chanid != '99999') {
       //io.to(socket.chanid).emit('msg',{name:socket.username,msg:res});
-      to_emit(socket, io, marked.parse(res));
+      if (config.markdownMessage) { /* 开启 MarkDown 的情况 */
+        to_emit(socket, io, marked.parse(res));
+      } else {
+        /* 屏蔽 HTML 中的 script style 标签 */
+        if (utils.checkHtml(res) && config.checkHtml) {
+          socket.emit('toast', "发送失败，包含不安全内容");
+          return;
+        }
+        to_emit(socket, io, res);
+      }
       //io.to('99999').emit('msg',{name:socket.username,msg:res});
       //} else {
       //io.emit('msg',{name:socket.username,msg:res});

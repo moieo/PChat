@@ -96,6 +96,14 @@ socket.on('connect',function(){
     mail: mail
   });
 });
+
+/* 服务器返回的 消息 */
+socket.on('toast', function(res) {
+  $("#toast > .toast-body").text(res);
+  new bootstrap.Toast($('#toast')).show();
+});
+
+/* 接收消息部分 */
 const con_item = $('.con_item');
 
 /* 监听服务器推送 */
