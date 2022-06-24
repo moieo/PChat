@@ -8,6 +8,9 @@ const at_user = function(name) {
 };
 /* 对话框 */
 const append_bubble = function(con_item, type='left', name, msg, mail) {
+  if (new RegExp('\\[em\\]([0-9]{3})\\[/em\\]').test(msg)) {
+    msg = msg.replaceAll(new RegExp('\\[em\\]([0-9]{3})\\[/em\\]', 'ig'), '<img src="/img/tg-emoji/$1.gif"></img>');
+  }
   if (type == 'left'){
     con_item.append(`
     <div class="left-bubble">
@@ -135,5 +138,40 @@ $('#send-btn').on('click', function() {
   $('#msgcon').val('');
   var height = $(document).height();
   $(document).scrollTop(height);
+  $('#msgcon').focus();
+});
+
+function PrefixInteger(num, length) {  
+  return (Array(length).join('0') + num).slice(-length);
+}
+
+/* 表情 */
+const emojiModal = new bootstrap.Modal($('#emoji-modal')[0])
+
+function select_emoji(id) {
+  const name = `[em]${id}[/em]`
+  const msg = $('#msgcon')[0].value;
+  if (msg && msg.length > 0 && msg != '') {
+    $('#msgcon').val(`${$('#msgcon').val()} ${name} `);
+  } else {
+    $('#msgcon').val(`${name} `);
+  }
+  emojiModal.hide();
+}
+
+$('#emoji').on('click', function() {
+  emojiModal.show();
+  $.ajax({
+    url:'/img/tg-emoji/data.json',
+    success: function(result){
+      result.forEach(function(value, index, self) {
+        $('#emoji-list').append(`
+        <div class="col">
+          <img src="/img/tg-emoji/${value}" onclick="select_emoji('${value.substring(0, value.lastIndexOf("."))}');"/>
+        </div>
+      `);
+      });
+    }
+  });
   $('#msgcon').focus();
 });

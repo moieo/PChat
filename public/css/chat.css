@@ -41,7 +41,7 @@ body {
   margin-bottom: 120px;
 }
 
-#send-btn {
+.btns {
   margin-top: 10px;
 }
 
@@ -107,3 +107,8 @@ body {
   clear: both;
   margin-top: 10px;
 }
+
+#emoji-modal {
+  max-height: 50%;
+}
+

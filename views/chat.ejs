@@ -28,8 +28,23 @@
       <div>
         <textarea id="msgcon" class="form-control" aria-describedby="send-btn"></textarea>
       </div>
-      <div>
+      <div class="btns">
+        <button class="btn btn-outline-secondary" type="button" id="emoji">表情</button>
         <button class="btn btn-outline-secondary" type="button" id="send-btn">发送</button>
+      </div>
+    </div>
+    <div class="modal fade" id="emoji-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">表情</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row row-cols-8" id="emoji-list">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 22">
