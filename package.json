@@ -17,6 +17,7 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.16",
     "request": "^2.88.2",
+    "serve-index": "^1.9.1",
     "sm-crypto": "^0.3.8",
     "socket.io": "^4.5.1"
   }
