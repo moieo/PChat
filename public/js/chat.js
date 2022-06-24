@@ -10,15 +10,15 @@ const at_user = function(name) {
 const append_bubble = function(con_item, type='left', name, msg, mail) {
   if (type == 'left'){
     con_item.append(`
-    <div>
-      <div class="left-bubble alert alert-warning">
-        <div class="message-head">
-          <img class="img-circle avatar" ondblclick="at_user('@${name}')" src="https://cravatar.cn/avatar/${mail}?s=100"></img>
-          <div class="message-head-right">
-            <div class="nickname">${name}</div>
-            <!-- <div>福建省厦门市</div> -->
-          </div>
+    <div class="left-bubble">
+      <div class="message-head">
+        <img class="img-circle avatar" ondblclick="at_user('@${name}')" src="https://cravatar.cn/avatar/${mail}?s=100"></img>
+        <div class="message-head-right">
+          <div class="nickname">${name}</div>
+          <!-- <div>福建省厦门市</div> -->
         </div>
+      </div>
+      <div class="bubble alert alert-warning">
         <div class="message">
           <!-- ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")} -->
           ${msg}
@@ -28,15 +28,15 @@ const append_bubble = function(con_item, type='left', name, msg, mail) {
   `);
   } else if (type == 'right') {
     con_item.append(`
-    <div>
-      <div class="right-bubble alert alert-info">
-        <div class="message-head-to-right">
-          <div class="message-head-left">
-            <div class="nickname">${name}</div>
-            <!-- <div>福建省厦门市</div> -->
-          </div>
-          <img class="img-circle avatar" src="https://cravatar.cn/avatar/${mail}?s=100"></img>
+    <div class="right-bubble">
+      <div class="message-head-to-right">
+        <div class="message-head-left">
+          <div class="nickname">${name}</div>
+          <!-- <div>福建省厦门市</div> -->
         </div>
+        <img class="img-circle avatar" src="https://cravatar.cn/avatar/${mail}?s=100"></img>
+      </div>
+      <div class="alert alert-info bubble">
         <div class="message">
           <!-- ${msg.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g, "<br/>")} -->
           ${msg}

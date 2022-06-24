@@ -3,8 +3,9 @@
 }
 
 .right-bubble {
-  padding: 8px;
+  padding-top: 8px;
   max-width: 80%;
+  width: fit-content;
   margin-left: auto;
 }
 
@@ -22,8 +23,9 @@
 }
 
 .left-bubble {
-  padding: 8px;
+  padding-top: 8px;
   max-width: 80%;
+  width: fit-content;
   margin-right: auto;
 }
 
@@ -72,16 +74,21 @@ body {
   text-align: left;
   margin-top: 10px;
   word-wrap: break-word;
-  max-width: 100%; /* 防止消息溢出对话框 */
+  max-width: 100%; /* 防止消息溢出对话框 */;
   overflow: hidden;
 }
 
 /* 消息内部的图片 */
 .message img {
-  width: auto;  
-  height: auto;  
-  max-width: 100%;  
-  max-height: 100%;     
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.message p {
+  padding: 0px;
+  font-size: 18px;
 }
 
 /* 底部输入框 */
@@ -93,4 +100,10 @@ body {
   width: 100%;
   background: #fff;
   text-align: right;
+}
+
+/* 气泡 */
+.bubble {
+  clear: both;
+  margin-top: 10px;
 }
