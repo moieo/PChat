@@ -72,6 +72,16 @@ body {
   text-align: left;
   margin-top: 10px;
   word-wrap: break-word;
+  max-width: 100%; /* 防止消息溢出对话框 */
+  overflow: hidden;
+}
+
+/* 消息内部的图片 */
+.message img {
+  width: auto;  
+  height: auto;  
+  max-width: 100%;  
+  max-height: 100%;     
 }
 
 /* 底部输入框 */
