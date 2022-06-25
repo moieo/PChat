@@ -6,11 +6,34 @@ const at_user = function(name) {
     $('#msgcon').val(`${name} `);
   }
 };
+
+const isMarkDown = $('meta[name=markdown]').attr('content') === 'true';
+
+const parsePic = function(msg) {
+  /* 表情解析 */
+  const emReg = '\\[em\\]([0-9]{3})\\[/em\\]';
+  if (new RegExp(emReg, 'ig').test(msg)) {
+    if(isMarkDown){
+      msg = msg.replaceAll(new RegExp(emReg, 'ig'), '![img](/img/tg-emoji/$1.gif)');
+    } else {
+      msg = msg.replaceAll(new RegExp(emReg, 'ig'), '<img src="/img/tg-emoji/$1.gif"></img>');
+    }
+  }
+
+  /*v图片解析 */
+  const picReg = '\\[pic\\\](.*)\\[/pic\\]';
+  if (new RegExp(picReg, 'ig').test(msg)) {
+    if(isMarkDown){
+      msg = msg.replaceAll(new RegExp(picReg, 'ig'), '![img]($1)');
+    } else {
+      msg = msg.replaceAll(new RegExp(picReg, 'ig'), '<img src="$1"></img>');
+    }
+  }
+  return msg;
+}
+
 /* 对话框 */
 const append_bubble = function(con_item, type='left', name, msg, mail) {
-  if (new RegExp('\\[em\\]([0-9]{3})\\[/em\\]').test(msg)) {
-    msg = msg.replaceAll(new RegExp('\\[em\\]([0-9]{3})\\[/em\\]', 'ig'), '<img src="/img/tg-emoji/$1.gif"></img>');
-  }
   if (type == 'left'){
     con_item.append(`
     <div class="left-bubble">
@@ -130,10 +153,11 @@ $('.content-show').css('display', 'block');
 
 /* 发送消息 */
 $('#send-btn').on('click', function() {
-  const msg = $('#msgcon')[0].value;
+  var msg = $('#msgcon')[0].value;
   if (!msg && msg.length <= 0 && msg == '') {
     return;
   }
+  msg = parsePic(msg);
   socket.emit('send', msg);
   $('#msgcon').val('');
   var height = $(document).height();
@@ -174,4 +198,40 @@ $('#emoji').on('click', function() {
     }
   });
   $('#msgcon').focus();
+});
+
+const pictureModal = new bootstrap.Modal($('#picture-modal')[0]);
+
+$('#picture').on('click', function() {
+  pictureModal.show();
+});
+
+var uploadImg = $('#upload_img');
+uploadImg.on('input', function() {
+  var formData = new FormData($('#uploadImgForm')[0]);
+  $.ajax({
+    url: '/img/upload',
+    method: 'post',
+    data: formData,
+    cache: false,
+    processData: false,
+    contentType: false,
+    success: (result) => {
+      if(result.code == 200) {
+        const name = `[pic]${result.url}[/pic]`;
+        const msg = $('#msgcon')[0].value;
+        if (msg && msg.length > 0 && msg != '') {
+          $('#msgcon').val(`${$('#msgcon').val()} ${name} `);
+        } else {
+          $('#msgcon').val(`${name} `);
+        }
+        pictureModal.hide();
+      } else {
+        alert(result.msg);
+      }
+    },
+    error: (error) => {
+      console.log(error);
+    }
+  })
 });

@@ -1,3 +1,5 @@
 node_modules/
+uploads/
 yarn.lock
 test.js
+config.js

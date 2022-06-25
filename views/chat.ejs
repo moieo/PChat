@@ -9,6 +9,7 @@
     <meta name="email" content="<%= data.email %>">
     <meta name="chanid" content="<%= data.chanid %>">
     <meta name="sign" content="<%= data.sign %>">
+    <meta name="markdown" content="<%= markdown %>">
   </head>
   <body class="container">
     <%- include('./chat-header.ejs', title); %>
@@ -29,6 +30,9 @@
         <textarea id="msgcon" class="form-control" aria-describedby="send-btn"></textarea>
       </div>
       <div class="btns">
+        <% if (uploadImg) { %>
+        <button class="btn btn-outline-secondary" type="button" id="picture">图片</button>
+        <% } %>
         <button class="btn btn-outline-secondary" type="button" id="emoji">表情</button>
         <button class="btn btn-outline-secondary" type="button" id="send-btn">发送</button>
       </div>
@@ -47,6 +51,28 @@
         </div>
       </div>
     </div>
+
+    <% /* 上传图片 */ %>
+    <% if (uploadImg) { %>
+    <div class="modal fade" id="picture-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">上传图片</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <form id="uploadImgForm">
+                <input type="file" class="form-control" id="upload_img" showUpload="false" name="img">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 22">
       <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
