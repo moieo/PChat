@@ -16,3 +16,5 @@
 - [x] 支持 MarkDown 消息
 - [x] highlight.js 渲染代码
 - [x] 在非移动设备使用 Shift+Enter 发送消息
+
+# [Wiki](https://github.com/moieo/PChat/wiki/%E9%83%A8%E7%BD%B2)
