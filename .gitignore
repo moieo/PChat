@@ -3,3 +3,5 @@ uploads/
 yarn.lock
 test.js
 config.js
+pnpm-lock.yaml
+.pnpm-debug.log
