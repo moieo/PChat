@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "pchat-webpack@0.0.0",
+    "stage": "dev",
+    "script": "nodemon ./bin/www.js",
+    "pkgname": "pchat-webpack",
+    "err": {
+      "name": "pnpm",
+      "message": "pchat-webpack@0.0.0 dev: `nodemon ./bin/www.js`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: pchat-webpack@0.0.0 dev: `nodemon ./bin/www.js`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/home/moieo/.node/corepack/pnpm/7.2.1/dist/pnpm.cjs:93917:22)\n    at ChildProcess.emit (node:events:537:28)\n    at maybeClose (node:internal/child_process:1091:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:302:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}

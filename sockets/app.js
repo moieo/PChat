@@ -44,6 +44,9 @@ const to_emit = function(socket, io, msg) {
   });
 };
 
+/* 用于存储不同频道中的用户 */
+global.chand_user = {};
+
 const app = function(server) {
   var io = require('socket.io')(server);
   var counter = {
@@ -57,6 +60,18 @@ const app = function(server) {
       socket.username = res.username;
       socket.chanid = res.chanid;
       socket.mail = res.mail;
+      if(!global.chand_user[socket.chanid]) global.chand_user[socket.chanid] = {};
+
+      if (global.chand_user[socket.chanid] && global.chand_user[socket.chanid].hasOwnProperty(socket.username)) {
+        socket.emit('toast', `登录失败，用户已存在，请返回`);
+        return;
+      }
+
+      /* 用户信息表赋值 */
+      if(!global.chand_user[socket.chanid]) global.chand_user[socket.chanid] = {};
+      global.chand_user[socket.chanid][socket.username] = {
+        mail: socket.mail
+      };
 
       /* 加入频道 */
       socket.join(socket.chanid);
@@ -80,6 +95,10 @@ const app = function(server) {
     socket.on('send',function(res){ /* 发送给频道用户 */
       //if(socket.chanid != '99999') {
       //io.to(socket.chanid).emit('msg',{name:socket.username,msg:res});
+      if (global.chand_user[socket.chanid] && global.chand_user[socket.chanid].hasOwnProperty(socket.username)) {
+        socket.emit('toast', `登录失败，用户已存在，请返回`);
+        return;
+      }
       if (config.markdownMessage) { /* 开启 MarkDown 的情况 */
         to_emit(socket, io, marked.parse(res));
       } else {
@@ -113,6 +132,8 @@ const app = function(server) {
       counter.chan_counts[socket.chanid]--;
       if(counter.chan_counts[socket.chanid] === 0) {
         counter.chan_count--;
+        /* 从用户表删除频道 */
+        delete global.chand_user[socket.chanid];
       }
       /* 不加这两行运行久了会出现负数 不知道为啥 */
       if(counter.total_count < 0) counter.total_count = 0;
@@ -124,7 +145,10 @@ const app = function(server) {
         chanid: socket.chanid,
         count: counter.chan_counts[socket.chanid]
       });
+      /* 从用户表中删除 */
+      if (global.chand_user[socket.chanid] && global.chand_user[socket.chanid][socket.username]) delete global.chand_user[socket.chanid][socket.username];
     })
   })
 };
+
 module.exports = app;

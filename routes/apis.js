@@ -18,4 +18,9 @@ router.get('/qqinfo/:qq', (req, res)=>{
     res.end(body);
   });
 });
+
+router.get('/getUsers', (req, res) => {
+  const users = global.chand_user;
+  res.json(users);
+});
 module.exports = router;
