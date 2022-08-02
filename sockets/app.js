@@ -128,7 +128,7 @@ const app = function(server) {
         chan_count: counter.chan_count,
         total_count: counter.total_count
       });
-      console.log('getcount', counter.total_count);
+      // console.log('getcount', counter.total_count);
     });
 
     socket.on('disconnect',function(){
