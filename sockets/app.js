@@ -17,6 +17,7 @@ if (config.markdownMessage) {
     smartypants: false
   });
 }
+
 /* MD5 加密邮箱 */
 const get_mail_md5 = function(mail_dest) {
   var mail = '';
@@ -47,6 +48,9 @@ const to_emit = function(socket, io, msg) {
 /* 用于存储不同频道中的用户 */
 global.chand_user = {};
 
+/* 当用户重复时 的频道号 */
+const user_exist_chanid = '999999999999999X';
+
 const app = function(server) {
   var io = require('socket.io')(server);
   var counter = {
@@ -63,7 +67,8 @@ const app = function(server) {
       if(!global.chand_user[socket.chanid]) global.chand_user[socket.chanid] = {};
 
       if (global.chand_user[socket.chanid] && global.chand_user[socket.chanid].hasOwnProperty(socket.username)) {
-        socket.emit('toast', `登录失败，用户已存在，请返回`);
+        socket.emit('toast', `登录失败，用户名已存在，请返回`);
+        socket.chanid=user_exist_chanid;
         return;
       }
 
@@ -95,8 +100,10 @@ const app = function(server) {
     socket.on('send',function(res){ /* 发送给频道用户 */
       //if(socket.chanid != '99999') {
       //io.to(socket.chanid).emit('msg',{name:socket.username,msg:res});
-      if (global.chand_user[socket.chanid] && global.chand_user[socket.chanid].hasOwnProperty(socket.username)) {
-        socket.emit('toast', `登录失败，用户已存在，请返回`);
+      
+      /* 解决用户名重复 */
+      if (socket.chanid === user_exist_chanid) {
+        socket.emit('toast', `登录失败，用户名已存在，请返回`);
         return;
       }
       if (config.markdownMessage) { /* 开启 MarkDown 的情况 */
@@ -123,6 +130,7 @@ const app = function(server) {
       });
       console.log('getcount', counter.total_count);
     });
+
     socket.on('disconnect',function(){
       /* 防止刷新后首页人数显示为0 */
       if (socket.chanid == 'index') {

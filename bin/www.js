@@ -12,6 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
+console.log(`[PChat] Listening on port ${process.env.PORT || '3000'}`);
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
